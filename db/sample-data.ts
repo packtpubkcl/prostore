@@ -1,14 +1,57 @@
+import { hashSync } from 'bcrypt-ts-edge';
+
 const sampleData = {
+  users: [
+    {
+      name: 'Diego',
+      email: 'diego.fernandez88@gmail.com',
+      password: hashSync('GuitarraElectrica22', 10),
+      role: 'user',
+    },
+    {
+      name: 'Carmen',
+      email: 'cvelasco.contabilidad@outlook.com',
+      password: hashSync('Finanzas_2026$', 10),
+      role: 'admin',
+    },
+    {
+      name: 'Roberto',
+      email: 'rmendez_arquitectura@gmail.com',
+      password: hashSync('SolYSombra_Casa#01', 10),
+      role: 'user',
+    },
+    {
+      name: 'Lucía',
+      email: 'lusperea1995@hotmail.com',
+      password: hashSync('ViajeCusco.Verano', 10),
+      role: 'user',
+    },
+    {
+      name: 'Alejandro',
+      email: 'apazos.marketing@agencia.pe',
+      password: hashSync('SharkTankProject!', 10),
+      role: 'admin',
+    },
+    {
+      name: 'Miguel',
+      email: 'miguel_torres_fut@gmail.com',
+      password: hashSync('UniversitarioCampeon26', 10),
+      role: 'user',
+    },
+    {
+      name: 'Valeria',
+      email: 'vale.castillo.design@yahoo.com',
+      password: hashSync('MacbookPro_2025', 10),
+      role: 'user',
+    },
+  ],
   products: [
     {
       name: 'Polo Sporting Stretch Shirt',
       slug: 'polo-sporting-stretch-shirt',
       category: "Men's Dress Shirts",
       description: 'Classic Polo style with modern comfort',
-      images: [
-        '/images/sample-products/p1-1.jpg',
-        '/images/sample-products/p1-2.jpg',
-      ],
+      images: ['/images/sample-products/p1-1.jpg', '/images/sample-products/p1-2.jpg'],
       price: 59.99,
       brand: 'Polo',
       rating: 4.5,
@@ -22,10 +65,7 @@ const sampleData = {
       slug: 'brooks-brothers-long-sleeved-shirt',
       category: "Men's Dress Shirts",
       description: 'Timeless style and premium comfort',
-      images: [
-        '/images/sample-products/p2-1.jpg',
-        '/images/sample-products/p2-2.jpg',
-      ],
+      images: ['/images/sample-products/p2-1.jpg', '/images/sample-products/p2-2.jpg'],
       price: 85.9,
       brand: 'Brooks Brothers',
       rating: 4.2,
@@ -39,10 +79,7 @@ const sampleData = {
       slug: 'tommy-hilfiger-classic-fit-dress-shirt',
       category: "Men's Dress Shirts",
       description: 'A perfect blend of sophistication and comfort',
-      images: [
-        '/images/sample-products/p3-1.jpg',
-        '/images/sample-products/p3-2.jpg',
-      ],
+      images: ['/images/sample-products/p3-1.jpg', '/images/sample-products/p3-2.jpg'],
       price: 99.95,
       brand: 'Tommy Hilfiger',
       rating: 4.9,
@@ -56,10 +93,7 @@ const sampleData = {
       slug: 'calvin-klein-slim-fit-stretch-shirt',
       category: "Men's Dress Shirts",
       description: 'Streamlined design with flexible stretch fabric',
-      images: [
-        '/images/sample-products/p4-1.jpg',
-        '/images/sample-products/p4-2.jpg',
-      ],
+      images: ['/images/sample-products/p4-1.jpg', '/images/sample-products/p4-2.jpg'],
       price: 39.95,
       brand: 'Calvin Klein',
       rating: 3.6,
@@ -73,10 +107,7 @@ const sampleData = {
       slug: 'polo-ralph-lauren-oxford-shirt',
       category: "Men's Dress Shirts",
       description: 'Iconic Polo design with refined oxford fabric',
-      images: [
-        '/images/sample-products/p5-1.jpg',
-        '/images/sample-products/p5-2.jpg',
-      ],
+      images: ['/images/sample-products/p5-1.jpg', '/images/sample-products/p5-2.jpg'],
       price: 79.99,
       brand: 'Polo',
       rating: 4.7,
@@ -90,10 +121,7 @@ const sampleData = {
       slug: 'polo-classic-pink-hoodie',
       category: "Men's Sweatshirts",
       description: 'Soft, stylish, and perfect for laid-back days',
-      images: [
-        '/images/sample-products/p6-1.jpg',
-        '/images/sample-products/p6-2.jpg',
-      ],
+      images: ['/images/sample-products/p6-1.jpg', '/images/sample-products/p6-2.jpg'],
       price: 99.99,
       brand: 'Polo',
       rating: 4.6,
