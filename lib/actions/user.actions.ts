@@ -40,5 +40,6 @@ export async function signInWithCredentials(prevState: unknown, formData: FormDa
 
 // Sign out user
 export async function signOutUser() {
+  console.log('signing out user');
   await signOut();
 }
