@@ -3,21 +3,11 @@ import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from '@/lib/db/prisma';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { compareSync } from 'bcrypt-ts-edge';
-import type { NextAuthConfig } from 'next-auth';
 import { signInSchema } from '@/lib/validators';
-import { cookies } from 'next/headers';
-import { NextResponse } from 'next/server';
+import { config as authConfig } from './auth.config';
 
 export const config = {
-  pages: {
-    signIn: '/sign-in',
-    signOut: '/sign-out',
-    error: '/sign-in', // Error code passed in query string as ?error=
-  },
-  session: {
-    strategy: 'jwt',
-    maxAge: 30 * 24 * 60 * 60, //30 days
-  },
+  ...authConfig,
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
@@ -56,62 +46,21 @@ export const config = {
     }),
   ],
   callbacks: {
-    async session({ session, user, trigger, token }: any) {
-      // Set user id from the token
-      session.user.id = token.sub;
-      session.user.role = token.role;
-      session.user.name = token.name;
-      // If there is an update, set the user name
-      if (trigger === 'update') {
-        session.user.name = user.name;
-      }
-
-      return session;
-    },
+    ...authConfig.callbacks,
     async jwt({ token, user, trigger, session }: any) {
-      // Assign user fields to the token
-      if (user) {
-        token.role = user.role;
+      const res = await authConfig.callbacks.jwt({ token, user, trigger, session });
 
-        // If user has no name then use the email
-        if (user.name === 'NO_NAME') {
-          token.name = user.email!.split('@')[0];
-
-          // Update database to reflect the token name
-          await prisma.user.update({
-            where: { id: user.id },
-            data: { name: token.name },
-          });
-        }
-      }
-
-      if (session?.user?.name && trigger === 'update') {
-        token.name = session.user.name;
-      }
-
-      return token;
-    },
-    authorized({ request, auth }: any) {
-      //Check for session cart cookie
-      if (!request.cookies.get('sessionCartId')) {
-        //Generate new cart id session cookie
-        const sessionCartId = crypto.randomUUID();
-        //Clone request headers.
-        const newRequestHeaders = new Headers(request.headers);
-        //create the response
-        const response = NextResponse.next({
-          request: {
-            headers: newRequestHeaders,
-          },
+      if (user && user.name === 'NO_NAME') {
+        // Update database to reflect the token name
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { name: res.name },
         });
-        //set new sessionCartID
-        response.cookies.set('sessionCartId', sessionCartId);
-        return response;
-      } else {
-        return true;
       }
+
+      return res;
     },
   },
-} satisfies NextAuthConfig;
+};
 
 export const { handlers, signIn, signOut, auth } = NextAuth(config);
